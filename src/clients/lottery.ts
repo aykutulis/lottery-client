@@ -1,7 +1,8 @@
-import { web3 } from './web3';
+import { ethers } from 'ethers';
 import abi from '../assets/lottery.json';
-import { AbiItem } from 'web3-utils';
 
-const contractAddress = process.env.VITE_CONTRACT_ADDRESS;
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS as string;
 
-export const lottery = web3 ? new web3.eth.Contract(abi as AbiItem[], contractAddress) : undefined;
+export const provider = window.ethereum ? new ethers.providers.Web3Provider(window.ethereum) : undefined;
+
+export const lottery = new ethers.Contract(contractAddress, abi, provider);
