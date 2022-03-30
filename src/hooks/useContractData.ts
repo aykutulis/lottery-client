@@ -40,5 +40,5 @@ export const useContractData = () => {
     fetchContractData();
   }, []);
 
-  return { manager, players, balance, loading, error };
+  return { manager, players, signer, balance, loading, error };
 };
