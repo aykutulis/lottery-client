@@ -5,8 +5,14 @@ import { Global, css } from '@emotion/react';
 import { App } from './App';
 
 const globalStyles = css`
+  * {
+    color: #eeedde;
+  }
+
   body {
     margin: 0;
+    background-color: #141e27;
+    overflow: hidden;
   }
 `;
 
