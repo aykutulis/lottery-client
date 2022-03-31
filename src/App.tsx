@@ -2,19 +2,25 @@ import React from 'react';
 import { Alert, Typography, FormGroup, FormHelperText } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { useContractData, useEnter } from './hooks';
+import { useContractData, useEnter, usePickWinner } from './hooks';
 import { EnterButton, FlexDivider, StyledTextField, Wrapper, StyledPaper, LoadingPlaceholder } from './components';
 
 export const App: React.FC = () => {
   const { balance, manager, players, loading, error } = useContractData();
   const { input, onChange, onEnter, enterLoading, enterError } = useEnter();
+  const { onPickWinner, pickWinnerLoading, pickWinnerError } = usePickWinner();
 
   return (
     <Wrapper maxWidth='sm'>
       <StyledPaper elevation={3}>
         {error && (
           <Alert variant='filled' severity='error'>
-            {error}
+            {error.message}
+          </Alert>
+        )}
+        {pickWinnerError && (
+          <Alert variant='filled' severity='error'>
+            {pickWinnerError.message}
           </Alert>
         )}
         <Typography variant='h4' component='h1'>
@@ -53,8 +59,8 @@ export const App: React.FC = () => {
         <FlexDivider />
 
         <Typography variant='body1'>Ready to pick a winner?</Typography>
-        <LoadingButton variant='contained' color='success'>
-          Pick a winner!
+        <LoadingButton variant='contained' color='success' onClick={onPickWinner} loading={pickWinnerLoading}>
+          {pickWinnerLoading ? 'Picking winner...' : 'Pick a winner'}
         </LoadingButton>
       </StyledPaper>
     </Wrapper>
