@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import { Global, css } from '@emotion/react';
 
 import { App } from './App';
+import { PRIMARY_COLOR, BG_COLOR } from './constants';
 
 const globalStyles = css`
   * {
-    color: #eeedde;
+    color: ${PRIMARY_COLOR} !important;
   }
 
   body {
     margin: 0;
-    background-color: #141e27;
+    background-color: ${BG_COLOR};
     overflow: hidden;
   }
 `;
