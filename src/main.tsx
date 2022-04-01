@@ -7,13 +7,17 @@ import { PRIMARY_COLOR, BG_COLOR } from './constants';
 
 const globalStyles = css`
   * {
-    color: ${PRIMARY_COLOR} !important;
+    color: ${PRIMARY_COLOR};
   }
 
   body {
     margin: 0;
     background-color: ${BG_COLOR};
     overflow: hidden;
+  }
+
+  .MuiTooltip-tooltip {
+    font-size: 14px !important;
   }
 `;
 

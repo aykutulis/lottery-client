@@ -1,14 +1,25 @@
 import React from 'react';
-import { Alert, Typography, FormGroup, FormHelperText } from '@mui/material';
+import { Alert, Typography, FormGroup, FormHelperText, Tooltip } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useContractData, useEnter, usePickWinner } from './hooks';
 import { EnterButton, FlexDivider, StyledTextField, Wrapper, StyledPaper, LoadingPlaceholder } from './components';
 
+const NOT_MANAGER_ERROR = 'You are not the manager of this contract';
+const NO_PLAYERS_AVAILABLE_ERROR = 'No players are available to be picked';
+
 export const App: React.FC = () => {
-  const { balance, manager, players, loading, error } = useContractData();
+  const { balance, manager, signerAddress, players, loading, error } = useContractData();
   const { input, onChange, onEnter, enterLoading, enterError } = useEnter();
   const { onPickWinner, pickWinnerLoading, pickWinnerError } = usePickWinner();
+
+  const isManager = manager === signerAddress;
+
+  const tooltipText = (() => {
+    if (!isManager) return NOT_MANAGER_ERROR;
+    if (!players?.length) return NO_PLAYERS_AVAILABLE_ERROR;
+    return '';
+  })();
 
   return (
     <Wrapper maxWidth='sm'>
@@ -59,9 +70,17 @@ export const App: React.FC = () => {
         <FlexDivider />
 
         <Typography variant='body1'>Ready to pick a winner?</Typography>
-        <LoadingButton variant='contained' color='success' onClick={onPickWinner} loading={pickWinnerLoading}>
-          {pickWinnerLoading ? 'Picking winner...' : 'Pick a winner'}
-        </LoadingButton>
+        <Tooltip title={tooltipText} arrow disableHoverListener={isManager && !!players?.length}>
+          <LoadingButton
+            variant='contained'
+            color='success'
+            onClick={onPickWinner}
+            loading={pickWinnerLoading}
+            disabled={!isManager || !players?.length}
+          >
+            {pickWinnerLoading ? 'Picking winner...' : 'Pick a winner'}
+          </LoadingButton>
+        </Tooltip>
       </StyledPaper>
     </Wrapper>
   );
